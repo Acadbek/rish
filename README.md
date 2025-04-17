@@ -56,4 +56,14 @@ Default route (/) and 404 page pre-added
 
 ```bash
 npm run dev
-```# rish
+```
+## 🤝 Contributing
+
+Contributions are welcome!  
+Feel free to open an [issue](https://github.com/Acadbek/rish/issues) or submit a [pull request](https://github.com/Acadbek/rish/pulls).
+
+---
+
+## 📝 License
+
+MIT

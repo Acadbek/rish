@@ -1,0 +1,20 @@
+{
+  "name": "rish",
+  "version": "1.0.1",
+  "description": "Custom React starter with Tailwind, Router, Shadcn, etc.",
+  "homepage": "https://github.com/Acadbek/rish",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acadbek/rish.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Acadbek/rish/issues"
+  },
+  "main": "index.js",
+  "bin": {
+    "r": "./index.js"
+  },
+  "keywords": [],
+  "author": "Asadbek Nosirjonov",
+  "license": "ISC"
+}
