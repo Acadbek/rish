@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Custom React starter with Tailwind, Router, Shadcn, etc.",
   "homepage": "https://github.com/Acadbek/rish",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Acadbek/rish.git"
