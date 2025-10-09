@@ -1,6 +1,6 @@
 # rish
 
-A blazing fast React + TailwindCSS + React Router + Shadcn UI starter template — ready in 10 seconds!
+A blazing fast React + TailwindCSS + React Router Dom + Shadcn UI starter template — ready in 10 seconds!
 
 ## 🚀 What it does
 
@@ -47,16 +47,9 @@ Default route (/) and 404 page pre-added
 - Vite
 - React
 - TailwindCSS
-- React Router
+- React Router Dom
 - Shadcn UI
 
-## 🏁 Start Building!
-
-- Once installed, just run:
-
-```bash
-npm run dev
-```
 ## 🤝 Contributing
 
 Contributions are welcome!  

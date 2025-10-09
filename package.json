@@ -1,7 +1,7 @@
 {
   "name": "rish",
-  "version": "1.0.1",
-  "description": "Custom React starter with Tailwind, Router, Shadcn, etc.",
+  "version": "2.0.0",
+  "description": "Vite + React + Tailwind 4 + Shadcn/ui + React Router DOM ni bir buyruq bilan sozlash",
   "homepage": "https://github.com/Acadbek/rish",
   "type": "module",
   "repository": {
@@ -15,7 +15,18 @@
   "bin": {
     "r": "./index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "vite",
+    "react",
+    "tailwind",
+    "shadcn",
+    "shadcn-ui",
+    "react-router",
+    "template",
+    "boilerplate",
+    "starter",
+    "cli"
+  ],
   "author": "Asadbek Nosirjonov",
-  "license": "ISC"
+  "license": "MIT"
 }
