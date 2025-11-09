@@ -6,11 +6,34 @@ echo "================================================================"
 echo "Vite 5 + React 19 + Tailwind 4 + Shadcn/ui + React Router Dom 7"
 echo "================================================================"
 echo ""
-echo "tsx yoki jsx?"
+
+# Ask for project name
+read -p "📁 Project name: " PROJECT_NAME
+
+# If not dot and not empty
+if [ "$PROJECT_NAME" != "." ] && [ -n "$PROJECT_NAME" ]; then
+    # If folder doesn't exist - create it
+    if [ ! -d "$PROJECT_NAME" ]; then
+        echo "📂 Creating '$PROJECT_NAME' folder..."
+        mkdir -p "$PROJECT_NAME"
+    else
+        echo "📂 Folder '$PROJECT_NAME' exists, installing inside..."
+    fi
+    cd "$PROJECT_NAME"
+    echo "✅ Moved to '$PROJECT_NAME'"
+elif [ "$PROJECT_NAME" = "." ]; then
+    echo "✅ Using current folder"
+else
+    echo "❌ Project name cannot be empty"
+    exit 1
+fi
+
+echo ""
+echo "tsx or jsx?"
 echo "1) TypeScript (.tsx)"
 echo "2) JavaScript (.jsx)"
 echo ""
-read -p "Raqamni kiriting (1 yoki 2): " CHOICE
+read -p "Enter 1 or 2: " CHOICE
 
 if [ "$CHOICE" = "2" ]; then
     LANG="js"
@@ -19,7 +42,7 @@ if [ "$CHOICE" = "2" ]; then
     VITE_CONFIG="vite.config.js"
     ROUTER_FILE="src/router/index.jsx"
     APP_FILE="src/App.jsx"
-    echo "✅ JavaScript tanlandi"
+    echo "✅ JavaScript selected"
 elif [ "$CHOICE" = "1" ]; then
     LANG="ts"
     TEMPLATE="react-swc-ts"
@@ -27,31 +50,31 @@ elif [ "$CHOICE" = "1" ]; then
     VITE_CONFIG="vite.config.ts"
     ROUTER_FILE="src/router/index.tsx"
     APP_FILE="src/App.tsx"
-    echo "✅ TypeScript tanlandi"
+    echo "✅ TypeScript selected"
 else
-    echo "❌ Noto'g'ri tanlov. 1 yoki 2 ni kiriting."
+    echo "❌ Invalid choice. Enter 1 or 2."
     exit 1
 fi
 
 echo ""
-echo -n "🚀 Vite loyihasini yaratish..."
+echo -n "🚀 Creating Vite project..."
 npm create vite@5 . -- --template $TEMPLATE > /dev/null 2>&1
 echo " ✅"
 
-echo -n "📦 Asosiy packagelarni o'rnatish..."
+echo -n "📦 Installing packages..."
 npm install > /dev/null 2>&1
 echo " ✅"
 
-echo -n "📦 TailwindCSS'ni o'rnatish..."
+echo -n "📦 Installing TailwindCSS..."
 npm install -D tailwindcss @tailwindcss/vite > /dev/null 2>&1
 echo " ✅"
 
-echo -n "✏️  src/index.css'ni yangilash..."
+echo -n "✏️  Updating src/index.css..."
 echo '@import "tailwindcss";' > src/index.css
 echo " ✅"
 
 if [ "$LANG" = "js" ]; then
-    echo -n "📝 jsconfig.json yaratish..."
+    echo -n "📝 Creating jsconfig.json..."
     cat <<EOL > jsconfig.json
 {
   "compilerOptions": {
@@ -64,9 +87,9 @@ if [ "$LANG" = "js" ]; then
 EOL
     echo " ✅"
 else
-    echo -n "📝 tsconfig.json va tsconfig.app.json'ni yangilash..."
+    echo -n "📝 Updating tsconfig files..."
     
-    # tsconfig.json yangilash
+    # Update tsconfig.json
     cat <<EOL > tsconfig.json
 {
   "files": [],
@@ -83,9 +106,8 @@ else
 }
 EOL
 
-    # tsconfig.app.json yangilash (asosiy config)
+    # Update tsconfig.app.json
     if [ -f tsconfig.app.json ]; then
-        # Yangi tsconfig.app.json yaratish
         cat <<EOL > tsconfig.app.json
 {
   "compilerOptions": {
@@ -117,7 +139,7 @@ EOL
     echo " ✅"
 fi
 
-echo -n "⚙️  vite.config'ni yangilash..."
+echo -n "⚙️  Updating vite.config..."
 if [ "$LANG" = "js" ]; then
     cat <<EOL > vite.config.js
 import path from "path";
@@ -155,30 +177,44 @@ EOL
 fi
 echo " ✅"
 
-echo -n "🎨 shadcn/ui'ni o'rnatish..."
+echo -n "🎨 Installing shadcn/ui..."
 npx shadcn@latest init -y
 echo " ✅"
 
-echo -n "🔘 Button componentini qo'shish..."
+echo -n "🔘 Adding Button component..."
 npx shadcn@latest add button -y > /dev/null 2>&1
 echo " ✅"
 
-echo -n "🛣️  React Router DOM'ni o'rnatish..."
+echo -n "🛣️  Installing React Router..."
 npm install react-router-dom > /dev/null 2>&1
 echo " ✅"
 
-echo -n "📁 Routelarni config qilish..."
+echo -n "📁 Setting up routes..."
 mkdir -p src/router
+mkdir -p src/pages/home
 
 if [ "$LANG" = "js" ]; then
+    # HomePage component
+    cat <<'EOL' > src/pages/home/index.jsx
+import { Button } from "@/components/ui/button";
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Button>Click</Button>
+    </div>
+  );
+}
+EOL
+
     cat <<'EOL' > src/router/index.jsx
 import { Routes, Route } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import HomePage from "@/pages/home";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Button>Home page</Button>} />
+      <Route path="/" element={<HomePage />} />
       <Route path="*" element={<div className="text-2xl p-4 text-red-500">404 - Page Not Found</div>} />
     </Routes>
   );
@@ -200,14 +236,27 @@ function App() {
 export default App;
 EOL
 else
+    # HomePage component (TypeScript)
+    cat <<'EOL' > src/pages/home/index.tsx
+import { Button } from "@/components/ui/button";
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Button>Click</Button>
+    </div>
+  );
+}
+EOL
+
     cat <<'EOL' > src/router/index.tsx
 import { Routes, Route } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import HomePage from "@/pages/home";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Button>Home page</Button>} />
+      <Route path="/" element={<HomePage />} />
       <Route path="*" element={<div className="text-2xl p-4 text-red-500">404 - Page Not Found</div>} />
     </Routes>
   );
@@ -231,22 +280,22 @@ EOL
 fi
 echo " ✅"
 
-echo -n "🧹 Keraksiz fayllarni o'chirish..."
+echo -n "🧹 Cleaning up..."
 rm -f src/App.css
 rm -f src/assets/react.svg
 rm -f public/vite.svg
 echo " ✅"
 
 echo ""
-echo "✅ Loyiha muvaffaqiyatli sozlandi!"
+echo "✅ Project setup complete!"
 echo ""
 
-echo "🚀 VS Code ochilmoqda..."
+echo "🚀 Opening VS Code..."
 
-# .vscode papkasini yaratish
+# Create .vscode folder
 mkdir -p .vscode
 
-# tasks.json yaratish - npm run dev uchun
+# Create tasks.json for auto dev server
 cat <<'EOL' > .vscode/tasks.json
 {
   "version": "2.0.0",
