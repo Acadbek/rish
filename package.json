@@ -1,6 +1,6 @@
 {
   "name": "rish",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "Vite + React + Tailwind 4 + Shadcn/ui + React Router DOM ni bir buyruq bilan sozlash",
   "homepage": "https://github.com/Acadbek/rish",
   "type": "module",
